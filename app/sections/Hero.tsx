@@ -1,0 +1,193 @@
+"use client";
+
+import { motion } from "framer-motion";
+import { ArrowRight, MapPin, Clock, Headphones, Package } from "lucide-react";
+import Image from "next/image";
+import { useState } from "react";
+
+export default function Hero() {
+  const [trackingNumber, setTrackingNumber] = useState("");
+
+  return (
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#0a1628]">
+      {/* Animated Background Grid */}
+      <div className="absolute inset-0 opacity-[0.03]">
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `linear-gradient(rgba(14, 165, 233, 0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(14, 165, 233, 0.5) 1px, transparent 1px)`,
+            backgroundSize: "60px 60px",
+          }}
+        />
+      </div>
+
+      {/* Gradient Orbs */}
+      <div className="absolute top-1/4 -left-32 w-[500px] h-[500px] bg-[#0ea5e9]/20 rounded-full blur-[150px] animate-pulse" />
+      <div className="absolute bottom-1/4 -right-32 w-[400px] h-[400px] bg-[#38bdf8]/10 rounded-full blur-[120px]" />
+
+      {/* Content */}
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-20">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          {/* Left - Text Content */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: [0.25, 0.4, 0.25, 1] }}
+          >
+            {/* Badge */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.2, duration: 0.5 }}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#0ea5e9]/10 border border-[#0ea5e9]/20 mb-8"
+            >
+              <span className="w-2 h-2 rounded-full bg-[#0ea5e9] animate-pulse" />
+              <span className="text-[#0ea5e9] text-sm font-medium">
+                Now Serving All of Florida
+              </span>
+            </motion.div>
+
+            {/* Headline */}
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.6 }}
+              className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[1.1] mb-6"
+            >
+              Florida&apos;s Most{" "}
+              <span className="gradient-text">Reliable</span>
+              <br />
+              Logistics Partner
+            </motion.h1>
+
+            {/* Subheadline */}
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4, duration: 0.6 }}
+              className="text-lg sm:text-xl text-[#94a3b8] max-w-xl mb-10 leading-relaxed"
+            >
+              Next-day delivery guaranteed. Personal service from the owner.
+              1000+ vetted carriers at your command. Built for Florida businesses
+              that can&apos;t afford to wait.
+            </motion.p>
+
+            {/* CTAs */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5, duration: 0.6 }}
+              className="flex flex-col sm:flex-row gap-4 mb-12"
+            >
+              <a
+                href="#quote"
+                className="group inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-[#0ea5e9] text-[#0a1628] font-bold text-lg hover:bg-[#38bdf8] transition-all duration-300 hover:shadow-[0_0_40px_rgba(14,165,233,0.4)]"
+              >
+                Get a Free Quote
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </a>
+              <a
+                href="#services"
+                className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl border border-[#0ea5e9]/30 text-[#f8fafc] font-semibold text-lg hover:bg-[#0ea5e9]/10 hover:border-[#0ea5e9]/50 transition-all duration-300"
+              >
+                Explore Services
+              </a>
+            </motion.div>
+
+            {/* Trust Indicators */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.7, duration: 0.6 }}
+              className="flex flex-wrap gap-6"
+            >
+              {[
+                { icon: Clock, text: "Next-Day Delivery" },
+                { icon: Headphones, text: "24/7 Owner Support" },
+                { icon: MapPin, text: "Florida Coverage" },
+              ].map((item, i) => (
+                <div key={i} className="flex items-center gap-2 text-[#64748b]">
+                  <item.icon className="w-4 h-4 text-[#0ea5e9]" />
+                  <span className="text-sm">{item.text}</span>
+                </div>
+              ))}
+            </motion.div>
+          </motion.div>
+
+          {/* Right - Tracking Card & Visual */}
+          <motion.div
+            initial={{ opacity: 0, x: 40 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.4, duration: 0.8 }}
+            className="relative"
+          >
+            {/* Logo Display */}
+            <div className="relative mb-8 flex justify-center">
+              <div className="relative w-64 h-64 lg:w-80 lg:h-80">
+                <Image
+                  src="/logo.png"
+                  alt="Duverge Logistics"
+                  fill
+                  className="object-contain drop-shadow-[0_0_60px_rgba(14,165,233,0.3)]"
+                  priority
+                />
+              </div>
+            </div>
+
+            {/* Tracking Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6, duration: 0.6 }}
+              className="relative bg-[#0f1d32]/80 backdrop-blur-xl rounded-2xl p-6 border border-[#0ea5e9]/20 shadow-2xl"
+            >
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 rounded-lg bg-[#0ea5e9]/10 flex items-center justify-center">
+                  <Package className="w-5 h-5 text-[#0ea5e9]" />
+                </div>
+                <div>
+                  <h3 className="font-semibold text-[#f8fafc]">Track Shipment</h3>
+                  <p className="text-sm text-[#64748b]">Enter your tracking number</p>
+                </div>
+              </div>
+
+              <div className="flex gap-3">
+                <input
+                  type="text"
+                  placeholder="e.g., DVL-123456"
+                  value={trackingNumber}
+                  onChange={(e) => setTrackingNumber(e.target.value)}
+                  className="flex-1 px-4 py-3 rounded-xl bg-[#0a1628] border border-[#0ea5e9]/20 text-[#f8fafc] placeholder-[#64748b] focus:outline-none focus:border-[#0ea5e9]/50 transition-colors"
+                />
+                <button className="px-6 py-3 rounded-xl bg-[#0ea5e9] text-[#0a1628] font-semibold hover:bg-[#38bdf8] transition-colors whitespace-nowrap">
+                  Track
+                </button>
+              </div>
+
+              <div className="mt-4 pt-4 border-t border-[#0ea5e9]/10 flex justify-between text-xs text-[#64748b]">
+                <span>Need help?</span>
+                <a href="#contact" className="text-[#0ea5e9] hover:underline">
+                  Contact support →
+                </a>
+              </div>
+            </motion.div>
+
+            {/* Floating Stats */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.8, duration: 0.5 }}
+              className="absolute -bottom-4 -left-4 bg-[#0f1d32] rounded-xl p-4 border border-[#0ea5e9]/20 shadow-xl hidden lg:block"
+            >
+              <div className="text-2xl font-bold text-[#0ea5e9]">1000+</div>
+              <div className="text-xs text-[#64748b]">Vetted Carriers</div>
+            </motion.div>
+          </motion.div>
+        </div>
+      </div>
+
+      {/* Bottom Gradient Fade */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#0a1628] to-transparent pointer-events-none" />
+    </section>
+  );
+}
