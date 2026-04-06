@@ -97,6 +97,7 @@ export default function QuoteForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
   const [lastSubmitTime, setLastSubmitTime] = useState<number>(0);
+  const [honeypot, setHoneypot] = useState("");
   const [fromService, setFromService] = useState(false);
 
   // Read service from URL hash on mount and when hash changes
@@ -228,6 +229,12 @@ export default function QuoteForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    // Honeypot check — bots fill hidden fields
+    if (honeypot) {
+      setIsSubmitted(true);
+      return;
+    }
+
     // Rate limiting - prevent duplicate submissions within 10 seconds
     const now = Date.now();
     if (now - lastSubmitTime < 10000) {
@@ -265,6 +272,7 @@ export default function QuoteForm() {
     Object.entries(normalizedData).forEach(([key, value]) => {
       formDataObj.append(key, value);
     });
+    formDataObj.append('_honeypot', honeypot);
     
     try {
       // Submit to Google Sheets with timeout
@@ -429,6 +437,18 @@ export default function QuoteForm() {
               className="bg-[#0f1d32]/80 backdrop-blur-xl rounded-2xl p-8 border border-[#0ea5e9]/20"
               noValidate
             >
+              {/* Honeypot — hidden from real users, bots fill it */}
+              <div aria-hidden="true" className="absolute -left-[9999px]">
+                <input
+                  type="text"
+                  name="website"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  value={honeypot}
+                  onChange={(e) => setHoneypot(e.target.value)}
+                />
+              </div>
+
               {submitError && (
                 <div className="mb-6 p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
                   {submitError}

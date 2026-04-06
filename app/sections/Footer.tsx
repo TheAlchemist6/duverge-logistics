@@ -132,12 +132,12 @@ export default function Footer() {
 
       <div className="border-t border-[#0ea5e9]/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex flex-col items-center gap-4 sm:flex-row sm:justify-between">
             <div className="flex items-center gap-2 text-sm text-[#64748b]">
-              <Truck className="w-4 h-4 text-[#0ea5e9]" />
+              <Truck className="w-4 h-4 text-[#0ea5e9] flex-shrink-0" />
               <span>Licensed and insured freight brokerage</span>
             </div>
-            <p className="text-sm text-[#64748b]">
+            <p className="text-sm text-[#64748b] text-center">
               © {new Date().getFullYear()} Duverge Logistics LLC. All rights reserved.
             </p>
             <button

@@ -27,7 +27,7 @@ export default function About() {
             className="relative order-2 lg:order-1"
           >
             {/* Cyan accent shape behind image */}
-            <div className="absolute -top-4 -left-4 w-full h-full rounded-2xl bg-[#0ea5e9]" />
+            <div className="absolute -top-3 -left-3 sm:-top-4 sm:-left-4 w-full h-full rounded-2xl bg-[#0ea5e9]" />
             
             {/* Main image container */}
             <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-[#0ea5e9]/10">
@@ -55,9 +55,9 @@ export default function About() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="absolute -bottom-6 -right-6 lg:bottom-8 lg:-right-8 bg-[#0a1628]/95 backdrop-blur-sm border border-[#0ea5e9]/20 rounded-xl p-5 shadow-xl"
+              className="relative mt-6 sm:absolute sm:-bottom-6 sm:-right-6 lg:bottom-8 lg:-right-8 bg-[#0a1628]/95 backdrop-blur-sm border border-[#0ea5e9]/20 rounded-xl p-4 sm:p-5 shadow-xl"
             >
-              <div className="flex gap-6">
+              <div className="flex gap-4 sm:gap-6 justify-center sm:justify-start">
                 {stats.map((stat, index) => (
                   <div key={index} className="text-center">
                     <stat.icon className="w-5 h-5 text-[#0ea5e9] mx-auto mb-2" />

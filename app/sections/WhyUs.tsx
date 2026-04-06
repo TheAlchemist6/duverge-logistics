@@ -64,28 +64,25 @@ function DifferentiatorCard({
       {/* Hover glow effect */}
       <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#0ea5e9]/0 to-[#38bdf8]/0 opacity-0 transition-opacity duration-500 group-hover:from-[#0ea5e9]/5 group-hover:to-[#38bdf8]/5 group-hover:opacity-100" />
       
-      <div className="relative flex gap-6 p-6 rounded-2xl border border-[#0ea5e9]/10 bg-[#0f1d32]/50 backdrop-blur-sm transition-all duration-300 hover:border-[#0ea5e9]/30 hover:bg-[#0f1d32]/80">
-        {/* Number */}
-        <span className="text-[#0ea5e9] text-sm font-bold tracking-wider">
+      <div className="relative flex flex-wrap sm:flex-nowrap gap-4 sm:gap-6 p-5 sm:p-6 rounded-2xl border border-[#0ea5e9]/10 bg-[#0f1d32]/50 backdrop-blur-sm transition-all duration-300 hover:border-[#0ea5e9]/30 hover:bg-[#0f1d32]/80">
+        <span className="text-[#0ea5e9] text-sm font-bold tracking-wider order-1">
           {item.number}
         </span>
 
-        {/* Content */}
-        <div className="flex-1">
-          <h3 className="text-[#f8fafc] text-xl font-semibold mb-3 group-hover:text-[#0ea5e9] transition-colors duration-300">
+        <div className="flex-1 order-3 sm:order-2 basis-full sm:basis-auto">
+          <h3 className="text-[#f8fafc] text-lg sm:text-xl font-semibold mb-2 sm:mb-3 group-hover:text-[#0ea5e9] transition-colors duration-300">
             {item.title}
           </h3>
-          <p className="text-[#94a3b8] text-base leading-relaxed">
+          <p className="text-[#94a3b8] text-sm sm:text-base leading-relaxed">
             {item.description}
           </p>
         </div>
 
-        {/* Icon */}
         <div
-          className={`flex-shrink-0 w-14 h-14 rounded-xl bg-gradient-to-br ${item.gradient} p-[1px] transition-transform duration-300 group-hover:scale-110`}
+          className={`flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-gradient-to-br ${item.gradient} p-[1px] transition-transform duration-300 group-hover:scale-110 order-2 sm:order-3 ml-auto sm:ml-0`}
         >
           <div className="w-full h-full rounded-xl bg-[#0a1628] flex items-center justify-center">
-            <item.icon className="w-6 h-6 text-[#0ea5e9]" strokeWidth={1.5} />
+            <item.icon className="w-5 h-5 sm:w-6 sm:h-6 text-[#0ea5e9]" strokeWidth={1.5} />
           </div>
         </div>
       </div>
@@ -167,7 +164,7 @@ export default function WhyUs() {
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{ duration: 0.6, delay: 0.5 }}
-              className="flex gap-8 mt-10 pt-10 border-t border-[#0ea5e9]/10"
+              className="flex flex-wrap gap-6 sm:gap-8 mt-10 pt-10 border-t border-[#0ea5e9]/10"
             >
               <div>
                 <div className="text-3xl font-bold text-[#0ea5e9]">1,000+</div>
@@ -201,21 +198,23 @@ export default function WhyUs() {
               }}
               className="mt-8 p-6 rounded-2xl bg-gradient-to-br from-[#0ea5e9]/10 to-[#38bdf8]/10 border border-[#0ea5e9]/20"
             >
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-full bg-[#0ea5e9] flex items-center justify-center flex-shrink-0">
-                  <span className="text-[#0a1628] font-bold text-lg">?</span>
-                </div>
-                <div>
-                  <h4 className="text-[#f8fafc] font-semibold mb-1">
-                    Still comparing options?
-                  </h4>
-                  <p className="text-[#94a3b8] text-sm">
-                    Let us show you the Duverge difference with a free freight audit.
-                  </p>
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                <div className="flex items-center gap-4 flex-1">
+                  <div className="w-12 h-12 rounded-full bg-[#0ea5e9] flex items-center justify-center flex-shrink-0">
+                    <span className="text-[#0a1628] font-bold text-lg">?</span>
+                  </div>
+                  <div>
+                    <h4 className="text-[#f8fafc] font-semibold mb-1">
+                      Still comparing options?
+                    </h4>
+                    <p className="text-[#94a3b8] text-sm">
+                      Let us show you the Duverge difference with a free freight audit.
+                    </p>
+                  </div>
                 </div>
                 <a
                   href="#quote"
-                  className="ml-auto px-5 py-2.5 rounded-lg bg-[#0ea5e9] text-[#0a1628] font-semibold text-sm hover:bg-[#38bdf8] transition-colors whitespace-nowrap"
+                  className="w-full sm:w-auto text-center px-5 py-2.5 rounded-lg bg-[#0ea5e9] text-[#0a1628] font-semibold text-sm hover:bg-[#38bdf8] transition-colors whitespace-nowrap"
                 >
                   Get Quote
                 </a>
