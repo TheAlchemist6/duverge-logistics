@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Send, CheckCircle, Truck, Package, Building2 } from "lucide-react";
 
 const serviceOptions = [
@@ -26,6 +26,18 @@ export default function QuoteForm() {
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Read service from URL hash on mount
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (hash.includes("?service=")) {
+      const serviceParam = hash.split("?service=")[1];
+      if (serviceParam) {
+        const decodedService = decodeURIComponent(serviceParam);
+        setFormData((prev) => ({ ...prev, service: decodedService }));
+      }
+    }
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -112,7 +124,7 @@ export default function QuoteForm() {
             </h2>
 
             <p className="text-lg text-[#94a3b8] mb-10">
-              Tell us about your shipping needs. We&apos;ll get back to you instantenously with a competitive quote.
+              Tell us about your shipping needs. We&apos;ll get back to you instantly with a competitive quote.
             </p>
 
             {/* Features */}

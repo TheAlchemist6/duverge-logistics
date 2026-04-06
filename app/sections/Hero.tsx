@@ -53,7 +53,7 @@ export default function Hero() {
               transition={{ delay: 0.3, duration: 0.6 }}
               className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-[1.1] mb-6"
             >
-              Florida&apos;s Most{" "}
+              Your Most{" "}
               <span className="gradient-text">Reliable</span>
               <br />
               Logistics Partner
@@ -67,7 +67,7 @@ export default function Hero() {
               className="text-lg sm:text-xl text-[#94a3b8] max-w-xl mb-10 leading-relaxed"
             >
               Next-day delivery guaranteed. Personal service from the owner.
-              1000+ vetted carriers at your command. Built for Florida businesses
+              1000+ vetted carriers at your command. Built for businesses
               that can&apos;t afford to wait.
             </motion.p>
 

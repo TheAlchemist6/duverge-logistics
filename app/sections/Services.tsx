@@ -37,7 +37,7 @@ const services: Service[] = [
     title: "LTL (Less Than Truckload)",
     description:
       "Cost-effective shipping for smaller freight that doesn't require a full truck. Pay only for the space you use while maintaining reliable delivery schedules.",
-    href: "#quote",
+    href: "#quote?service=LTL%20(Less%20Than%20Truckload)",
   },
   {
     id: "truckload",
@@ -45,7 +45,7 @@ const services: Service[] = [
     title: "Truckload",
     description:
       "Full truckload solutions for large shipments. Dedicated capacity with direct routes, fewer stops, and maximum security for your cargo from pickup to delivery.",
-    href: "#quote",
+    href: "#quote?service=Truckload",
   },
   {
     id: "warehousing",
@@ -53,7 +53,7 @@ const services: Service[] = [
     title: "Warehousing",
     description:
       "Strategic storage facilities in Florida with inventory management, cross-docking, and distribution services. Flexible space solutions that scale with your business needs.",
-    href: "#quote",
+    href: "#quote?service=Warehousing",
   },
   {
     id: "international",
@@ -61,7 +61,7 @@ const services: Service[] = [
     title: "International Shipping",
     description:
       "Seamless cross-border logistics with customs clearance expertise. Connect your business to global markets with reliable air, ocean, and ground freight options.",
-    href: "#quote",
+    href: "#quote?service=International%20Shipping",
   },
   {
     id: "white-glove",
@@ -69,7 +69,7 @@ const services: Service[] = [
     title: "White-Glove Delivery",
     description:
       "Premium handling for high-value, fragile, or specialized items. Inside delivery, assembly, installation, and debris removal with meticulous care and attention.",
-    href: "#quote",
+    href: "#quote?service=White-Glove%20Delivery",
   },
   {
     id: "last-mile",
@@ -77,7 +77,7 @@ const services: Service[] = [
     title: "Last-Mile Delivery",
     description:
       "The final mile matters most. Timely, accurate delivery to your customers' doorsteps with real-time tracking and proof of delivery for complete visibility.",
-    href: "#quote",
+    href: "#quote?service=Last-Mile%20Delivery",
   },
   {
     id: "expedited",
@@ -85,7 +85,7 @@ const services: Service[] = [
     title: "Expedited Delivery",
     description:
       "Time-critical shipments that can't wait. Priority handling with dedicated trucks and team drivers to meet your tightest deadlines, including same-day and next-day options.",
-    href: "#quote",
+    href: "#quote?service=Expedited%20Delivery",
   },
   {
     id: "heavy-hauling",
@@ -93,7 +93,7 @@ const services: Service[] = [
     title: "Heavy Hauling",
     description:
       "Oversized, overweight, and over-dimensional freight expertise. From permits and routing to specialized equipment, we handle the complex logistics of heavy cargo.",
-    href: "#quote",
+    href: "#quote?service=Heavy%20Hauling",
   },
 ];
 
