@@ -151,6 +151,22 @@ interface ServiceCardProps {
 function ServiceCard({ service, index }: ServiceCardProps) {
   const Icon = service.icon;
 
+  const handleGetQuote = (e: React.MouseEvent) => {
+    e.preventDefault();
+    
+    // Update URL with service parameter
+    const encodedService = encodeURIComponent(service.title);
+    window.location.hash = `#quote?service=${encodedService}`;
+    
+    // Scroll to quote section
+    setTimeout(() => {
+      const quoteSection = document.getElementById("quote");
+      if (quoteSection) {
+        quoteSection.scrollIntoView({ behavior: "smooth" });
+      }
+    }, 50);
+  };
+
   return (
     <motion.article
       variants={itemVariants}
@@ -177,15 +193,15 @@ function ServiceCard({ service, index }: ServiceCardProps) {
             {service.description}
           </p>
 
-          {/* Get Quote Link */}
-          <a
-            href={service.href}
-            className="inline-flex items-center gap-2 mt-6 text-[#0ea5e9] text-sm font-medium transition-all duration-300 group/link hover:text-[#38bdf8]"
+          {/* Get Quote Button */}
+          <button
+            onClick={handleGetQuote}
+            className="inline-flex items-center gap-2 mt-6 text-[#0ea5e9] text-sm font-medium transition-all duration-300 group/link hover:text-[#38bdf8] text-left"
             aria-label={`Get quote for ${service.title}`}
           >
             <span>Get Quote</span>
             <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover/link:translate-x-1" />
-          </a>
+          </button>
         </div>
 
         {/* Card Number Badge */}
