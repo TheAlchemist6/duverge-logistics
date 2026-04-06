@@ -132,16 +132,7 @@ export default function Hero() {
               </div>
             </div>
 
-            {/* Floating Stats */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.8, duration: 0.5 }}
-              className="absolute -bottom-4 -left-4 bg-[#0f1d32] rounded-xl p-4 border border-[#0ea5e9]/20 shadow-xl hidden lg:block"
-            >
-              <div className="text-2xl font-bold text-[#0ea5e9]">1000+</div>
-              <div className="text-xs text-[#64748b]">Vetted Carriers</div>
-            </motion.div>
+
           </motion.div>
         </div>
       </div>
