@@ -13,11 +13,12 @@ const LinkedInIcon = ({ className }: { className?: string }) => (
 const contactInfo = [
   {
     icon: Phone,
-    label: "Phone",
+    label: "WhatsApp",
     value: "551-234-9587",
-    href: "tel:+15512349587",
+    href: "https://wa.me/15512349587",
     description: "24/7 Dispatch Available",
     isLinkedIn: false,
+    isWhatsApp: true,
   },
   {
     icon: Mail,
@@ -84,8 +85,8 @@ export default function Contact() {
             const CardWrapper = item.isInfoOnly ? motion.div : motion.a;
             const cardProps = item.isInfoOnly ? {} : {
               href: item.href,
-              target: item.isLinkedIn ? "_blank" : undefined,
-              rel: item.isLinkedIn ? "noopener noreferrer" : undefined,
+              target: (item.isLinkedIn || item.isWhatsApp) ? "_blank" : undefined,
+              rel: (item.isLinkedIn || item.isWhatsApp) ? "noopener noreferrer" : undefined,
             };
             
             return (

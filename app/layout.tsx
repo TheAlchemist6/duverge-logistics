@@ -13,13 +13,27 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Duverge Logistics | Florida's Premier Freight Broker",
-  description: "Next-day delivery, personalized service, and 1000+ vetted carriers. Duverge Logistics is Florida's most reliable logistics partner for medium and large B2B businesses.",
-  keywords: ["logistics", "freight brokerage", "Florida logistics", "next-day delivery", "supply chain", "warehousing", "heavy hauling"],
+  title: "Duverge Logistics | Freight Brokerage",
+  description: "Next-day delivery, personalized service, and instant response. Duverge Logistics is your most reliable logistics partner serving the United States & Canada.",
+  keywords: ["logistics", "freight brokerage", "shipping", "next-day delivery", "supply chain", "warehousing", "heavy hauling", "LTL", "truckload"],
   openGraph: {
-    title: "Duverge Logistics | Florida's Premier Freight Broker",
-    description: "Next-day delivery, personalized service, and 1000+ vetted carriers.",
+    title: "Duverge Logistics | Freight Brokerage",
+    description: "Next-day delivery, personalized service, and instant response. Serving the United States & Canada.",
     type: "website",
+    images: [
+      {
+        url: '/logo.png',
+        width: 1024,
+        height: 1024,
+        alt: 'Duverge Logistics Logo',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: "Duverge Logistics | Freight Brokerage",
+    description: "Next-day delivery, personalized service, and instant response.",
+    images: ['/logo.png'],
   },
 };
 
