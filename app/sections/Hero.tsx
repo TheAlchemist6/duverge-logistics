@@ -121,12 +121,12 @@ export default function Hero() {
           >
             {/* Logo Display */}
             <div className="relative mb-8 flex justify-center">
-              <div className="relative w-80 h-80 lg:w-[420px] lg:h-[420px]">
+              <div className="relative w-96 h-96 lg:w-[500px] lg:h-[500px]">
                 <Image
                   src="/logo.png"
                   alt="Duverge Logistics"
                   fill
-                  className="object-contain drop-shadow-[0_0_80px_rgba(14,165,233,0.4)]"
+                  className="object-contain drop-shadow-[0_0_100px_rgba(14,165,233,0.5)]"
                   priority
                 />
               </div>
