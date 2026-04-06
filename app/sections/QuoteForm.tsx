@@ -21,7 +21,7 @@ const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxZi6HOl20Ga_
 // Input sanitization function - removes potentially harmful characters
 const sanitizeInput = (input: string): string => {
   return input
-    .trim()
+    // Don't trim here - allow spaces while typing
     // Remove HTML tags
     .replace(/<[^>]*>/g, '')
     // Remove script tags and javascript:
@@ -29,7 +29,7 @@ const sanitizeInput = (input: string): string => {
     .replace(/javascript:/gi, '')
     // Remove SQL injection attempts (basic)
     .replace(/(\b(SELECT|INSERT|UPDATE|DELETE|DROP|CREATE|ALTER|EXEC|UNION)\b)/gi, '')
-    // Remove excessive whitespace
+    // Normalize multiple spaces to single space (but preserve leading/trailing for now)
     .replace(/\s+/g, ' ')
     // Limit length
     .slice(0, 500);
@@ -239,14 +239,14 @@ export default function QuoteForm() {
     setIsSubmitting(true);
     setSubmitError("");
     
-    // Final sanitization before sending
+    // Final sanitization before sending - trim values here
     const normalizedData = {
-      name: sanitizeInput(formData.name),
-      company: sanitizeInput(formData.company),
+      name: sanitizeInput(formData.name).trim(),
+      company: sanitizeInput(formData.company).trim(),
       email: formData.email.toLowerCase().trim(),
       phone: formData.phone.replace(/\D/g, ''),
-      service: sanitizeInput(formData.service),
-      load: sanitizeInput(formData.load),
+      service: sanitizeInput(formData.service).trim(),
+      load: sanitizeInput(formData.load).trim(),
     };
     
     // Create form data (avoids CORS preflight issues)
