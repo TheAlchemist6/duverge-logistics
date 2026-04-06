@@ -42,6 +42,7 @@ const contactInfo = [
     href: "#",
     description: "Always available",
     isLinkedIn: false,
+    isInfoOnly: true,
   },
 ];
 
@@ -80,12 +81,17 @@ export default function Contact() {
         >
           {contactInfo.map((item, index) => {
             const IconComponent = item.icon;
+            const CardWrapper = item.isInfoOnly ? motion.div : motion.a;
+            const cardProps = item.isInfoOnly ? {} : {
+              href: item.href,
+              target: item.isLinkedIn ? "_blank" : undefined,
+              rel: item.isLinkedIn ? "noopener noreferrer" : undefined,
+            };
+            
             return (
-              <motion.a
+              <CardWrapper
                 key={item.label}
-                href={item.href}
-                target={item.isLinkedIn ? "_blank" : undefined}
-                rel={item.isLinkedIn ? "noopener noreferrer" : undefined}
+                {...cardProps}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -102,7 +108,7 @@ export default function Contact() {
                 <p className="text-sm text-[#64748b] mb-1">{item.label}</p>
                 <p className="text-[#f8fafc] font-semibold text-lg mb-2 break-words">{item.value}</p>
                 <p className="text-sm text-[#64748b]">{item.description}</p>
-              </motion.a>
+              </CardWrapper>
             );
           })}
         </motion.div>
