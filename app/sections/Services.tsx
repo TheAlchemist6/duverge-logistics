@@ -3,13 +3,12 @@
 import { motion } from "framer-motion";
 import {
   Truck,
-  Container,
   Warehouse,
-  Globe,
+  Plane,
   HandHeart,
   MapPin,
   Zap,
-  Weight,
+  Construction,
   ArrowRight,
   type LucideIcon,
 } from "lucide-react";
@@ -41,7 +40,7 @@ const services: Service[] = [
   },
   {
     id: "truckload",
-    icon: Container,
+    icon: Truck,
     title: "Truckload",
     description:
       "Full truckload solutions for large shipments. Dedicated capacity with direct routes, fewer stops, and maximum security for your cargo from pickup to delivery.",
@@ -57,7 +56,7 @@ const services: Service[] = [
   },
   {
     id: "international",
-    icon: Globe,
+    icon: Plane,
     title: "International Shipping",
     description:
       "Seamless cross-border logistics with customs clearance expertise. Connect your business to global markets with reliable air, ocean, and ground freight options.",
@@ -89,7 +88,7 @@ const services: Service[] = [
   },
   {
     id: "heavy-hauling",
-    icon: Weight,
+    icon: Construction,
     title: "Heavy Hauling",
     description:
       "Oversized, overweight, and over-dimensional freight expertise. From permits and routing to specialized equipment, we handle the complex logistics of heavy cargo.",
@@ -204,10 +203,7 @@ function ServiceCard({ service, index }: ServiceCardProps) {
           </button>
         </div>
 
-        {/* Card Number Badge */}
-        <div className="absolute top-6 right-6 text-[#1e293b] text-6xl font-bold select-none pointer-events-none">
-          {String(index + 1).padStart(2, "0")}
-        </div>
+
       </div>
     </motion.article>
   );
