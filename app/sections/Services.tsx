@@ -184,11 +184,19 @@ function ServiceCard({ service, index }: ServiceCardProps) {
     const encodedService = encodeURIComponent(service.title);
     window.location.hash = `#quote?service=${encodedService}`;
     
-    // Scroll to quote section
+    // Scroll to quote section and focus on name input
     setTimeout(() => {
       const quoteSection = document.getElementById("quote");
       if (quoteSection) {
         quoteSection.scrollIntoView({ behavior: "smooth" });
+        
+        // Focus on the name input field after scroll
+        setTimeout(() => {
+          const nameInput = document.querySelector('input[name="name"]') as HTMLInputElement;
+          if (nameInput) {
+            nameInput.focus();
+          }
+        }, 400); // Wait for scroll to complete
       }
     }, 50);
   };
@@ -199,7 +207,7 @@ function ServiceCard({ service, index }: ServiceCardProps) {
       className="group relative flex flex-col h-full"
     >
       {/* Card Container */}
-      <div className="relative flex flex-col h-full p-8 rounded-2xl bg-gradient-to-br from-[#0f1d32] to-[#0a1628] border border-[#0ea5e9]/10 overflow-hidden transition-all duration-500 ease-out group-hover:-translate-y-2 group-hover:border-[#0ea5e9]/30 group-hover:shadow-[0_0_40px_-12px_rgba(14,165,233,0.25)]">
+      <div className="relative flex flex-col h-full p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-[#0f1d32] to-[#0a1628] border border-[#0ea5e9]/10 overflow-hidden transition-all duration-500 ease-out group-hover:-translate-y-2 group-hover:border-[#0ea5e9]/30 group-hover:shadow-[0_0_40px_-12px_rgba(14,165,233,0.25)]">
         {/* Subtle Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-br from-[#0ea5e9]/[0.05] via-transparent to-[#38bdf8]/[0.05] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
