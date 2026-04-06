@@ -27,16 +27,25 @@ export default function QuoteForm() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Read service from URL hash on mount
+  // Read service from URL hash on mount and when hash changes
   useEffect(() => {
-    const hash = window.location.hash;
-    if (hash.includes("?service=")) {
-      const serviceParam = hash.split("?service=")[1];
-      if (serviceParam) {
-        const decodedService = decodeURIComponent(serviceParam);
-        setFormData((prev) => ({ ...prev, service: decodedService }));
+    const readServiceFromHash = () => {
+      const hash = window.location.hash;
+      if (hash.includes("?service=")) {
+        const serviceParam = hash.split("?service=")[1];
+        if (serviceParam) {
+          const decodedService = decodeURIComponent(serviceParam);
+          setFormData((prev) => ({ ...prev, service: decodedService }));
+        }
       }
-    }
+    };
+
+    // Read on mount
+    readServiceFromHash();
+
+    // Listen for hash changes
+    window.addEventListener("hashchange", readServiceFromHash);
+    return () => window.removeEventListener("hashchange", readServiceFromHash);
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
