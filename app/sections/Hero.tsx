@@ -124,11 +124,13 @@ export default function Hero() {
             {/* Logo Display */}
             <div className="relative mb-8 flex justify-center">
               <div className="relative w-64 h-64 lg:w-80 lg:h-80">
+                {/* Dark circular background to hide white logo background */}
+                <div className="absolute inset-2 rounded-full bg-[#0a1628]" />
                 <Image
                   src="/logo.png"
                   alt="Duverge Logistics"
                   fill
-                  className="object-contain drop-shadow-[0_0_60px_rgba(14,165,233,0.3)]"
+                  className="object-contain drop-shadow-[0_0_60px_rgba(14,165,233,0.3)] relative z-10"
                   priority
                 />
               </div>

@@ -41,11 +41,13 @@ export default function Navbar() {
             {/* Logo */}
             <a href="#" className="flex items-center gap-3 group">
               <div className="relative w-12 h-12">
+                {/* Dark background to hide white logo background */}
+                <div className="absolute inset-0.5 rounded-full bg-[#0a1628]" />
                 <Image
                   src="/logo.png"
                   alt="Duverge Logistics"
                   fill
-                  className="object-contain transition-transform duration-300 group-hover:scale-105"
+                  className="object-contain transition-transform duration-300 group-hover:scale-105 relative z-10"
                 />
               </div>
               <div className="hidden sm:block">
