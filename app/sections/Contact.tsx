@@ -22,7 +22,7 @@ const contactInfo = [
   {
     icon: Mail,
     label: "Email",
-    value: "Info@duvergelogistics.com",
+    value: "Email Us",
     href: "mailto:Info@duvergelogistics.com",
     description: "Quotes & Inquiries",
     isLinkedIn: false,
@@ -32,7 +32,7 @@ const contactInfo = [
     label: "LinkedIn",
     value: "Cesar Duverge",
     href: "https://www.linkedin.com/in/cesarduverge/",
-    description: "Connect with us",
+    description: "Connect with me here",
     isLinkedIn: true,
   },
   {
@@ -100,7 +100,7 @@ export default function Contact() {
                   )}
                 </div>
                 <p className="text-sm text-[#64748b] mb-1">{item.label}</p>
-                <p className="text-[#f8fafc] font-semibold text-lg mb-2">{item.value}</p>
+                <p className="text-[#f8fafc] font-semibold text-lg mb-2 break-words">{item.value}</p>
                 <p className="text-sm text-[#64748b]">{item.description}</p>
               </motion.a>
             );
