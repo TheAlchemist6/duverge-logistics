@@ -1,7 +1,14 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Phone, Mail, Clock, Globe } from "lucide-react";
+import { Phone, Mail, Clock } from "lucide-react";
+
+// LinkedIn Icon Component
+const LinkedInIcon = ({ className }: { className?: string }) => (
+  <svg className={className} fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+  </svg>
+);
 
 const contactInfo = [
   {
@@ -10,6 +17,7 @@ const contactInfo = [
     value: "551-234-9587",
     href: "tel:+15512349587",
     description: "24/7 Dispatch Available",
+    isLinkedIn: false,
   },
   {
     icon: Mail,
@@ -17,20 +25,23 @@ const contactInfo = [
     value: "Info@duvergelogistics.com",
     href: "mailto:Info@duvergelogistics.com",
     description: "Quotes & Inquiries",
+    isLinkedIn: false,
   },
   {
-    icon: Globe,
+    icon: null,
     label: "LinkedIn",
     value: "Cesar Duverge",
     href: "https://www.linkedin.com/in/cesarduverge/",
     description: "Connect with us",
+    isLinkedIn: true,
   },
   {
     icon: Clock,
     label: "Hours",
     value: "24/7 Operations",
     href: "#",
-    description: "Always available for urgent shipments",
+    description: "Always available",
+    isLinkedIn: false,
   },
 ];
 
@@ -67,26 +78,33 @@ export default function Contact() {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto"
         >
-          {contactInfo.map((item, index) => (
-            <motion.a
-              key={item.label}
-              href={item.href}
-              target={item.label === "LinkedIn" ? "_blank" : undefined}
-              rel={item.label === "LinkedIn" ? "noopener noreferrer" : undefined}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="group p-6 rounded-2xl bg-[#0a1628] border border-[#0ea5e9]/10 hover:border-[#0ea5e9]/30 transition-all duration-300"
-            >
-              <div className="w-14 h-14 rounded-xl bg-[#0ea5e9]/10 flex items-center justify-center mb-5 group-hover:bg-[#0ea5e9]/20 transition-colors">
-                <item.icon className="w-7 h-7 text-[#0ea5e9]" />
-              </div>
-              <p className="text-sm text-[#64748b] mb-1">{item.label}</p>
-              <p className="text-[#f8fafc] font-semibold text-lg mb-2">{item.value}</p>
-              <p className="text-sm text-[#64748b]">{item.description}</p>
-            </motion.a>
-          ))}
+          {contactInfo.map((item, index) => {
+            const IconComponent = item.icon;
+            return (
+              <motion.a
+                key={item.label}
+                href={item.href}
+                target={item.isLinkedIn ? "_blank" : undefined}
+                rel={item.isLinkedIn ? "noopener noreferrer" : undefined}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="group p-6 rounded-2xl bg-[#0a1628] border border-[#0ea5e9]/10 hover:border-[#0ea5e9]/30 transition-all duration-300"
+              >
+                <div className="w-14 h-14 rounded-xl bg-[#0ea5e9]/10 flex items-center justify-center mb-5 group-hover:bg-[#0ea5e9]/20 transition-colors">
+                  {item.isLinkedIn ? (
+                    <LinkedInIcon className="w-7 h-7 text-[#0ea5e9]" />
+                  ) : (
+                    IconComponent && <IconComponent className="w-7 h-7 text-[#0ea5e9]" />
+                  )}
+                </div>
+                <p className="text-sm text-[#64748b] mb-1">{item.label}</p>
+                <p className="text-[#f8fafc] font-semibold text-lg mb-2">{item.value}</p>
+                <p className="text-sm text-[#64748b]">{item.description}</p>
+              </motion.a>
+            );
+          })}
         </motion.div>
 
         {/* CTA Banner */}
