@@ -61,8 +61,39 @@ export default function QuoteForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Check if Google Script URL is configured
+    if (!GOOGLE_SCRIPT_URL) {
+      setSubmitError("Form submission is not yet configured. Please contact us directly.");
+      return;
+    }
+    
+    // Validate required fields
+    if (!formData.name.trim() || !formData.company.trim() || !formData.email.trim() || !formData.phone.trim()) {
+      setSubmitError("Please fill in all required fields.");
+      return;
+    }
+    
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      setSubmitError("Please enter a valid email address.");
+      return;
+    }
+    
     setIsSubmitting(true);
     setSubmitError("");
+    
+    // Normalize data before sending
+    const normalizedData = {
+      ...formData,
+      name: formData.name.trim(),
+      company: formData.company.trim(),
+      email: formData.email.toLowerCase().trim(),
+      phone: formData.phone.trim(),
+      service: formData.service.trim(),
+      load: formData.load.trim(),
+    };
     
     try {
       // Submit to Google Sheets
@@ -71,7 +102,7 @@ export default function QuoteForm() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(normalizedData),
       });
       
       const result = await response.json();
@@ -92,7 +123,10 @@ export default function QuoteForm() {
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    // Normalize email to lowercase
+    const normalizedValue = name === 'email' ? value.toLowerCase().trim() : value;
+    setFormData({ ...formData, [name]: normalizedValue });
   };
 
   if (isSubmitted) {
@@ -333,7 +367,7 @@ export default function QuoteForm() {
               </button>
 
               <p className="text-center text-xs text-[#64748b] mt-4">
-                We respect your privacy. Your information will never be shared.
+                We respect your privacy.
               </p>
             </form>
           </motion.div>
