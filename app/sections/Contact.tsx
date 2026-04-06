@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Phone, Mail, Clock, Linkedin } from "lucide-react";
+import { Phone, Mail, Clock, Globe } from "lucide-react";
 
 const contactInfo = [
   {
@@ -19,7 +19,7 @@ const contactInfo = [
     description: "Quotes & Inquiries",
   },
   {
-    icon: Linkedin,
+    icon: Globe,
     label: "LinkedIn",
     value: "Cesar Duverge",
     href: "https://www.linkedin.com/in/cesarduverge/",
