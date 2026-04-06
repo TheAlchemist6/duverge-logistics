@@ -12,7 +12,6 @@ const footerLinks = {
     { label: "Warehousing", href: "#services" },
   ],
   company: [
-    { label: "Why Duverge", href: "#why-duverge" },
     { label: "Get a Quote", href: "#quote" },
     { label: "Contact", href: "#contact" },
   ],

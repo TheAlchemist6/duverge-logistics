@@ -1,7 +1,7 @@
 import Navbar from "./sections/Navbar";
 import Hero from "./sections/Hero";
 import Services from "./sections/Services";
-import WhyUs from "./sections/WhyUs";
+
 
 import QuoteForm from "./sections/QuoteForm";
 import Contact from "./sections/Contact";
@@ -13,7 +13,7 @@ export default function Home() {
       <Navbar />
       <Hero />
       <Services />
-      <WhyUs />
+
 
       <QuoteForm />
       <Contact />

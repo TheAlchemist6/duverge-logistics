@@ -7,7 +7,6 @@ import Image from "next/image";
 
 const navLinks = [
   { href: "#services", label: "Services" },
-  { href: "#why-duverge", label: "Why Us" },
   { href: "#contact", label: "Contact" },
 ];
 
