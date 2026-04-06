@@ -16,6 +16,11 @@ export const metadata: Metadata = {
   title: "Duverge Logistics | Freight Brokerage",
   description: "Next-day delivery, personalized service, and instant response. Duverge Logistics is your most reliable logistics partner serving the United States & Canada.",
   keywords: ["logistics", "freight brokerage", "shipping", "next-day delivery", "supply chain", "warehousing", "heavy hauling", "LTL", "truckload"],
+  icons: {
+    icon: '/logo.png',
+    shortcut: '/logo.png',
+    apple: '/logo.png',
+  },
   openGraph: {
     title: "Duverge Logistics | Freight Brokerage",
     description: "Next-day delivery, personalized service, and instant response. Serving the United States & Canada.",

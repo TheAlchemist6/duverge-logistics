@@ -15,8 +15,8 @@ const serviceOptions = [
   "Heavy Hauling",
 ];
 
-// Google Apps Script Web App URL
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxZi6HOl20Ga_TIh-uwHjhNuC0yvHYxKKUlMXMUnP3GPeuV5NJDcKMGVpO1u2SKRIluAA/exec';
+// Google Apps Script Web App URL - set in Vercel environment variables
+const GOOGLE_SCRIPT_URL = process.env.NEXT_PUBLIC_GOOGLE_SCRIPT_URL || '';
 
 // Input sanitization function - removes potentially harmful characters
 const sanitizeInput = (input: string, preserveNewlines = false): string => {
@@ -27,8 +27,7 @@ const sanitizeInput = (input: string, preserveNewlines = false): string => {
     // Remove script tags and javascript:
     .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
     .replace(/javascript:/gi, '')
-    // Remove SQL injection attempts (basic)
-    .replace(/(\b(SELECT|INSERT|UPDATE|DELETE|DROP|CREATE|ALTER|EXEC|UNION)\b)/gi, '');
+;
   
   if (!preserveNewlines) {
     // Normalize multiple spaces to single space (for single-line fields)
@@ -98,6 +97,7 @@ export default function QuoteForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
   const [lastSubmitTime, setLastSubmitTime] = useState<number>(0);
+  const [fromService, setFromService] = useState(false);
 
   // Read service from URL hash on mount and when hash changes
   useEffect(() => {
@@ -111,11 +111,13 @@ export default function QuoteForm() {
           if (serviceOptions.includes(decodedService)) {
             setFormData((prev) => ({ ...prev, service: decodedService }));
           }
-          // Scroll to quote section after setting service
+          setFromService(true);
+          // Scroll directly to form inputs after a brief delay
           setTimeout(() => {
-            const quoteSection = document.getElementById("quote");
-            if (quoteSection) {
-              quoteSection.scrollIntoView({ behavior: "smooth" });
+            const nameInput = document.querySelector('input[name="name"]') as HTMLInputElement;
+            if (nameInput) {
+              nameInput.scrollIntoView({ behavior: "smooth", block: "center" });
+              setTimeout(() => nameInput.focus(), 300);
             }
           }, 100);
         }
@@ -356,12 +358,13 @@ export default function QuoteForm() {
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20">
-          {/* Left - Info */}
+          {/* Left - Info - Hidden on mobile when coming from service */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
+            className={fromService ? 'hidden lg:block' : ''}
           >
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#0ea5e9]/10 border border-[#0ea5e9]/20 mb-6">
               <span className="w-2 h-2 rounded-full bg-[#0ea5e9]" />
