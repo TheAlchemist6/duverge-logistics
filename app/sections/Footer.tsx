@@ -60,7 +60,7 @@ export default function Footer() {
                 <Globe className="w-5 h-5" />
               </a>
               <a
-                href="mailto:quotes@duvergelogistics.com"
+                href="mailto:Info@duvergelogistics.com"
                 className="w-10 h-10 rounded-lg bg-[#0f1d32] flex items-center justify-center text-[#64748b] hover:text-[#0ea5e9] hover:bg-[#0ea5e9]/10 transition-colors"
               >
                 <Mail className="w-5 h-5" />

@@ -1,29 +1,22 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Phone, Mail, MapPin, Clock, Globe, Share2 } from "lucide-react";
+import { Phone, Mail, Clock, Globe } from "lucide-react";
 
 const contactInfo = [
   {
     icon: Phone,
     label: "Phone",
-    value: "(305) 555-0123",
-    href: "tel:+13055550123",
+    value: "551-234-9587",
+    href: "tel:+15512349587",
     description: "24/7 Dispatch Available",
   },
   {
     icon: Mail,
     label: "Email",
-    value: "quotes@duvergelogistics.com",
-    href: "mailto:quotes@duvergelogistics.com",
+    value: "Info@duvergelogistics.com",
+    href: "mailto:Info@duvergelogistics.com",
     description: "Quotes & Inquiries",
-  },
-  {
-    icon: MapPin,
-    label: "Location",
-    value: "Miami, FL",
-    href: "#",
-    description: "Serving all of Florida",
   },
   {
     icon: Clock,
@@ -65,7 +58,7 @@ export default function Contact() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6"
+          className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto"
         >
           {contactInfo.map((item, index) => (
             <motion.a
@@ -105,11 +98,11 @@ export default function Contact() {
               </p>
             </div>
             <a
-              href="tel:+13055550123"
+              href="tel:+15512349587"
               className="flex items-center gap-3 px-8 py-4 rounded-xl bg-[#0ea5e9] text-[#0a1628] font-bold text-lg hover:bg-[#38bdf8] transition-all duration-300 whitespace-nowrap"
             >
               <Phone className="w-5 h-5" />
-              Call (305) 555-0123
+              Call 551-234-9587
             </a>
           </div>
         </motion.div>
