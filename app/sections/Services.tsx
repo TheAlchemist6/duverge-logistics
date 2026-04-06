@@ -184,22 +184,18 @@ function ServiceCard({ service, index }: ServiceCardProps) {
     const encodedService = encodeURIComponent(service.title);
     window.location.hash = `#quote?service=${encodedService}`;
     
-    // Scroll directly to the form (not just the section header)
+    // Scroll to the actual input fields - find the first input
     setTimeout(() => {
-      const formElement = document.getElementById("quote-form");
-      if (formElement) {
-        // Scroll to form with offset to account for any fixed headers
-        const yOffset = -100; // Offset to show form inputs clearly
-        const y = formElement.getBoundingClientRect().top + window.pageYOffset + yOffset;
-        window.scrollTo({ top: y, behavior: "smooth" });
+      const nameInput = document.querySelector('input[name="name"]') as HTMLInputElement;
+      if (nameInput) {
+        // Scroll the input into view, positioned at top of viewport
+        nameInput.scrollIntoView({ behavior: "smooth", block: "start" });
         
-        // Focus on the name input field after scroll
+        // Add some offset to account for any fixed header
         setTimeout(() => {
-          const nameInput = document.querySelector('input[name="name"]') as HTMLInputElement;
-          if (nameInput) {
-            nameInput.focus();
-          }
-        }, 400); // Wait for scroll to complete
+          window.scrollBy({ top: -80, behavior: "auto" });
+          nameInput.focus();
+        }, 300);
       }
     }, 50);
   };
