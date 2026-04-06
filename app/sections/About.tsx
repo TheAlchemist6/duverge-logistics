@@ -34,13 +34,11 @@ export default function About() {
               <div className="aspect-[4/5] bg-gradient-to-br from-[#0a1628] to-[#1e293b] flex items-center justify-center relative">
                 {/* Logo instead of silhouette */}
                 <div className="relative w-48 h-48 opacity-80">
-                  {/* Dark background to hide white logo background */}
-                  <div className="absolute inset-2 rounded-full bg-[#0a1628]" />
                   <Image
                     src="/logo.png"
                     alt="Duverge Logistics"
                     fill
-                    className="object-contain relative z-10"
+                    className="object-contain mix-blend-multiply"
                   />
                 </div>
                 {/* Subtle pattern overlay */}

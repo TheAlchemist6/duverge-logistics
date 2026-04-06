@@ -35,13 +35,11 @@ export default function Footer() {
           <div className="col-span-2 md:col-span-4 lg:col-span-2">
             <a href="#" className="flex items-center gap-3 mb-6">
               <div className="relative w-14 h-14">
-                {/* Dark background to hide white logo background */}
-                <div className="absolute inset-0.5 rounded-full bg-[#070d17]" />
                 <Image
                   src="/logo.png"
                   alt="Duverge Logistics"
                   fill
-                  className="object-contain relative z-10"
+                  className="object-contain mix-blend-multiply"
                 />
               </div>
               <div>
