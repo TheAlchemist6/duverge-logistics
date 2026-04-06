@@ -244,22 +244,25 @@ export default function QuoteForm() {
       name: sanitizeInput(formData.name),
       company: sanitizeInput(formData.company),
       email: formData.email.toLowerCase().trim(),
-      phone: formData.phone.replace(/\D/g, ''), // Send digits only to backend
+      phone: formData.phone.replace(/\D/g, ''),
       service: sanitizeInput(formData.service),
       load: sanitizeInput(formData.load),
     };
     
+    // Create form data (avoids CORS preflight issues)
+    const formDataObj = new URLSearchParams();
+    Object.entries(normalizedData).forEach(([key, value]) => {
+      formDataObj.append(key, value);
+    });
+    
     try {
       // Submit to Google Sheets with timeout
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+      const timeoutId = setTimeout(() => controller.abort(), 10000);
       
       const response = await fetch(GOOGLE_SCRIPT_URL, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(normalizedData),
+        body: formDataObj,
         signal: controller.signal,
       });
       
