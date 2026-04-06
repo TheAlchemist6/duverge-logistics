@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { Truck, Globe, Mail, ArrowUp } from "lucide-react";
+import { Truck, Globe, Mail, Phone, Linkedin, ArrowUp } from "lucide-react";
 
 const footerLinks = {
   services: [
@@ -56,16 +56,24 @@ export default function Footer() {
             </p>
             <div className="flex gap-4">
               <a
-                href="#"
+                href="tel:+15512349587"
                 className="w-10 h-10 rounded-lg bg-[#0f1d32] flex items-center justify-center text-[#64748b] hover:text-[#0ea5e9] hover:bg-[#0ea5e9]/10 transition-colors"
               >
-                <Globe className="w-5 h-5" />
+                <Phone className="w-5 h-5" />
               </a>
               <a
                 href="mailto:Info@duvergelogistics.com"
                 className="w-10 h-10 rounded-lg bg-[#0f1d32] flex items-center justify-center text-[#64748b] hover:text-[#0ea5e9] hover:bg-[#0ea5e9]/10 transition-colors"
               >
                 <Mail className="w-5 h-5" />
+              </a>
+              <a
+                href="https://www.linkedin.com/in/cesarduverge/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 rounded-lg bg-[#0f1d32] flex items-center justify-center text-[#64748b] hover:text-[#0ea5e9] hover:bg-[#0ea5e9]/10 transition-colors"
+              >
+                <Linkedin className="w-5 h-5" />
               </a>
             </div>
           </div>

@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Phone, Mail, Clock, Globe } from "lucide-react";
+import { Phone, Mail, Clock, Linkedin } from "lucide-react";
 
 const contactInfo = [
   {
@@ -17,6 +17,13 @@ const contactInfo = [
     value: "Info@duvergelogistics.com",
     href: "mailto:Info@duvergelogistics.com",
     description: "Quotes & Inquiries",
+  },
+  {
+    icon: Linkedin,
+    label: "LinkedIn",
+    value: "Cesar Duverge",
+    href: "https://www.linkedin.com/in/cesarduverge/",
+    description: "Connect with us",
   },
   {
     icon: Clock,
@@ -58,12 +65,14 @@ export default function Contact() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto"
+          className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto"
         >
           {contactInfo.map((item, index) => (
             <motion.a
               key={item.label}
               href={item.href}
+              target={item.label === "LinkedIn" ? "_blank" : undefined}
+              rel={item.label === "LinkedIn" ? "noopener noreferrer" : undefined}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
