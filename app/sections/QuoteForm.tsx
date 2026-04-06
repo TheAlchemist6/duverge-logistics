@@ -2,22 +2,17 @@
 
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { Send, CheckCircle, Truck, Package, Clock, Building2 } from "lucide-react";
+import { Send, CheckCircle, Truck, Package, Building2 } from "lucide-react";
 
 const serviceOptions = [
-  "Freight Brokerage",
-  "Supply Chain Management",
-  "Last-Mile Delivery",
-  "Heavy Hauling",
+  "LTL (Less Than Truckload)",
+  "Truckload",
   "Warehousing",
-  "Internal Shipping",
-];
-
-const timelineOptions = [
-  "Immediate",
-  "Within 1 week",
-  "Within 2 weeks",
-  "Flexible",
+  "International Shipping",
+  "White-Glove Delivery",
+  "Last-Mile Delivery",
+  "Expedited Delivery",
+  "Heavy Hauling",
 ];
 
 export default function QuoteForm() {
@@ -27,10 +22,7 @@ export default function QuoteForm() {
     email: "",
     phone: "",
     service: "",
-    pickup: "",
-    delivery: "",
-    cargo: "",
-    timeline: "",
+    load: "",
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -81,10 +73,7 @@ export default function QuoteForm() {
                   email: "",
                   phone: "",
                   service: "",
-                  pickup: "",
-                  delivery: "",
-                  cargo: "",
-                  timeline: "",
+                  load: "",
                 });
               }}
               className="text-[#0ea5e9] hover:underline"
@@ -135,7 +124,7 @@ export default function QuoteForm() {
                   desc: "Access to 1000+ carriers means better pricing",
                 },
                 {
-                  icon: Clock,
+                  icon: Package,
                   title: "2-Hour Response",
                   desc: "Quick quotes for time-sensitive shipments",
                 },
@@ -145,7 +134,7 @@ export default function QuoteForm() {
                   desc: "Tailored solutions for medium & large businesses",
                 },
                 {
-                  icon: Package,
+                  icon: Send,
                   title: "All Cargo Types",
                   desc: "From parcels to heavy machinery",
                 },
@@ -231,90 +220,41 @@ export default function QuoteForm() {
                     value={formData.phone}
                     onChange={handleChange}
                     className="w-full px-4 py-3 rounded-xl bg-[#0a1628] border border-[#0ea5e9]/20 text-[#f8fafc] placeholder-[#64748b] focus:outline-none focus:border-[#0ea5e9]/50 transition-colors"
-                    placeholder="(305) 555-0123"
-                  />
-                </div>
-              </div>
-
-              <div className="grid sm:grid-cols-2 gap-6 mb-6">
-                <div>
-                  <label className="block text-sm font-medium text-[#94a3b8] mb-2">
-                    Service Type
-                  </label>
-                  <select
-                    name="service"
-                    value={formData.service}
-                    onChange={handleChange}
-                    className="w-full px-4 py-3 rounded-xl bg-[#0a1628] border border-[#0ea5e9]/20 text-[#f8fafc] focus:outline-none focus:border-[#0ea5e9]/50 transition-colors"
-                  >
-                    <option value="">Select a service</option>
-                    {serviceOptions.map((opt) => (
-                      <option key={opt} value={opt}>
-                        {opt}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-[#94a3b8] mb-2">
-                    Timeline
-                  </label>
-                  <select
-                    name="timeline"
-                    value={formData.timeline}
-                    onChange={handleChange}
-                    className="w-full px-4 py-3 rounded-xl bg-[#0a1628] border border-[#0ea5e9]/20 text-[#f8fafc] focus:outline-none focus:border-[#0ea5e9]/50 transition-colors"
-                  >
-                    <option value="">When do you need it?</option>
-                    {timelineOptions.map((opt) => (
-                      <option key={opt} value={opt}>
-                        {opt}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-
-              <div className="grid sm:grid-cols-2 gap-6 mb-6">
-                <div>
-                  <label className="block text-sm font-medium text-[#94a3b8] mb-2">
-                    Pickup Location
-                  </label>
-                  <input
-                    type="text"
-                    name="pickup"
-                    value={formData.pickup}
-                    onChange={handleChange}
-                    className="w-full px-4 py-3 rounded-xl bg-[#0a1628] border border-[#0ea5e9]/20 text-[#f8fafc] placeholder-[#64748b] focus:outline-none focus:border-[#0ea5e9]/50 transition-colors"
-                    placeholder="City, State"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-[#94a3b8] mb-2">
-                    Delivery Location
-                  </label>
-                  <input
-                    type="text"
-                    name="delivery"
-                    value={formData.delivery}
-                    onChange={handleChange}
-                    className="w-full px-4 py-3 rounded-xl bg-[#0a1628] border border-[#0ea5e9]/20 text-[#f8fafc] placeholder-[#64748b] focus:outline-none focus:border-[#0ea5e9]/50 transition-colors"
-                    placeholder="City, State"
+                    placeholder="551-234-9587"
                   />
                 </div>
               </div>
 
               <div className="mb-6">
                 <label className="block text-sm font-medium text-[#94a3b8] mb-2">
-                  Cargo Details
+                  Service Type
+                </label>
+                <select
+                  name="service"
+                  value={formData.service}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 rounded-xl bg-[#0a1628] border border-[#0ea5e9]/20 text-[#f8fafc] focus:outline-none focus:border-[#0ea5e9]/50 transition-colors"
+                >
+                  <option value="">Select a service</option>
+                  {serviceOptions.map((opt) => (
+                    <option key={opt} value={opt}>
+                      {opt}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="mb-6">
+                <label className="block text-sm font-medium text-[#94a3b8] mb-2">
+                  Load Details
                 </label>
                 <textarea
-                  name="cargo"
-                  rows={3}
-                  value={formData.cargo}
+                  name="load"
+                  rows={4}
+                  value={formData.load}
                   onChange={handleChange}
                   className="w-full px-4 py-3 rounded-xl bg-[#0a1628] border border-[#0ea5e9]/20 text-[#f8fafc] placeholder-[#64748b] focus:outline-none focus:border-[#0ea5e9]/50 transition-colors resize-none"
-                  placeholder="Weight, dimensions, special requirements..."
+                  placeholder="Weight, dimensions, special requirements, pickup location, delivery location, timeline..."
                 />
               </div>
 
