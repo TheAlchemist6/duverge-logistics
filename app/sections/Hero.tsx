@@ -1,12 +1,11 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, MapPin, Clock, Headphones, Package } from "lucide-react";
+import { ArrowRight, MapPin, Clock, Headphones } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
+
 
 export default function Hero() {
-  const [trackingNumber, setTrackingNumber] = useState("");
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#0a1628]">
@@ -43,7 +42,7 @@ export default function Hero() {
             >
               <span className="w-2 h-2 rounded-full bg-[#0ea5e9] animate-pulse" />
               <span className="text-[#0ea5e9] text-sm font-medium">
-                Now Serving All of Florida
+                Now Serving All of the United States and Canada
               </span>
             </motion.div>
 
@@ -133,44 +132,6 @@ export default function Hero() {
                 />
               </div>
             </div>
-
-            {/* Tracking Card */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6, duration: 0.6 }}
-              className="relative bg-[#0f1d32]/80 backdrop-blur-xl rounded-2xl p-6 border border-[#0ea5e9]/20 shadow-2xl"
-            >
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 rounded-lg bg-[#0ea5e9]/10 flex items-center justify-center">
-                  <Package className="w-5 h-5 text-[#0ea5e9]" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-[#f8fafc]">Track Shipment</h3>
-                  <p className="text-sm text-[#64748b]">Enter your tracking number</p>
-                </div>
-              </div>
-
-              <div className="flex gap-3">
-                <input
-                  type="text"
-                  placeholder="e.g., DVL-123456"
-                  value={trackingNumber}
-                  onChange={(e) => setTrackingNumber(e.target.value)}
-                  className="flex-1 px-4 py-3 rounded-xl bg-[#0a1628] border border-[#0ea5e9]/20 text-[#f8fafc] placeholder-[#64748b] focus:outline-none focus:border-[#0ea5e9]/50 transition-colors"
-                />
-                <button className="px-6 py-3 rounded-xl bg-[#0ea5e9] text-[#0a1628] font-semibold hover:bg-[#38bdf8] transition-colors whitespace-nowrap">
-                  Track
-                </button>
-              </div>
-
-              <div className="mt-4 pt-4 border-t border-[#0ea5e9]/10 flex justify-between text-xs text-[#64748b]">
-                <span>Need help?</span>
-                <a href="#contact" className="text-[#0ea5e9] hover:underline">
-                  Contact support →
-                </a>
-              </div>
-            </motion.div>
 
             {/* Floating Stats */}
             <motion.div

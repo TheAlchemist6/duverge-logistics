@@ -125,7 +125,7 @@ export default function QuoteForm() {
                 },
                 {
                   icon: Package,
-                  title: "2-Hour Response",
+                  title: "Instant Response",
                   desc: "Quick quotes for time-sensitive shipments",
                 },
                 {
