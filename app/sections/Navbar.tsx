@@ -45,7 +45,7 @@ export default function Navbar() {
                   src="/logo.png"
                   alt="Duverge Logistics"
                   fill
-                  className="object-contain transition-transform duration-300 group-hover:scale-105 mix-blend-multiply"
+                  className="object-contain transition-transform duration-300 group-hover:scale-105"
                 />
               </div>
               <div className="hidden sm:block">

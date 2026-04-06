@@ -128,7 +128,7 @@ export default function Hero() {
                   src="/logo.png"
                   alt="Duverge Logistics"
                   fill
-                  className="object-contain drop-shadow-[0_0_60px_rgba(14,165,233,0.3)] mix-blend-multiply"
+                  className="object-contain drop-shadow-[0_0_60px_rgba(14,165,233,0.3)]"
                   priority
                 />
               </div>

@@ -38,7 +38,7 @@ export default function About() {
                     src="/logo.png"
                     alt="Duverge Logistics"
                     fill
-                    className="object-contain mix-blend-multiply"
+                    className="object-contain"
                   />
                 </div>
                 {/* Subtle pattern overlay */}
