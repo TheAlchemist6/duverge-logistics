@@ -16,7 +16,7 @@ const serviceOptions = [
 ];
 
 // Google Apps Script Web App URL
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwet-HsRm-Dk1Bstm5sNerheHuoFoBoKQBS68RLNkPIv9vmU-ZlfGQhSpVN-K9VNNI9LA/exec';
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyw81vQsmvwd4VHZLP8xrf-psA4EjFxtVnv7v3YRGQenAqJv8EPbhf8atIdwXEDOFiJ/exec';
 
 // Input sanitization function - removes potentially harmful characters
 const sanitizeInput = (input: string): string => {
