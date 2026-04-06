@@ -22,7 +22,7 @@ const contactInfo = [
   {
     icon: Mail,
     label: "Email",
-    value: "Email Us",
+    value: "Info@duvergelogistics.com",
     href: "mailto:Info@duvergelogistics.com",
     description: "Quotes & Inquiries",
     isLinkedIn: false,
