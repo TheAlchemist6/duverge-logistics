@@ -121,7 +121,7 @@ export default function Hero() {
           >
             {/* Logo Display */}
             <div className="relative mb-8 flex justify-center">
-              <div className="relative w-[450px] h-[450px] lg:w-[600px] lg:h-[600px]">
+              <div className="relative w-[280px] h-[280px] sm:w-[380px] sm:h-[380px] lg:w-[600px] lg:h-[600px]">
                 <Image
                   src="/logo.png"
                   alt="Duverge Logistics"
