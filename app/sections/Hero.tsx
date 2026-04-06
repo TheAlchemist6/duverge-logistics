@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, MapPin, Clock, Headphones } from "lucide-react";
+import { ArrowRight, Clock, Headphones } from "lucide-react";
 import Image from "next/image";
 
 
@@ -103,7 +103,6 @@ export default function Hero() {
               {[
                 { icon: Clock, text: "Next-Day Delivery" },
                 { icon: Headphones, text: "24/7 Owner Support" },
-                { icon: MapPin, text: "Florida Coverage" },
               ].map((item, i) => (
                 <div key={i} className="flex items-center gap-2 text-[#64748b]">
                   <item.icon className="w-4 h-4 text-[#0ea5e9]" />
