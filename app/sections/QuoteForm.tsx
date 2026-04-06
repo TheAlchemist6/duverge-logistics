@@ -36,6 +36,13 @@ export default function QuoteForm() {
         if (serviceParam) {
           const decodedService = decodeURIComponent(serviceParam);
           setFormData((prev) => ({ ...prev, service: decodedService }));
+          // Scroll to quote section after setting service
+          setTimeout(() => {
+            const quoteSection = document.getElementById("quote");
+            if (quoteSection) {
+              quoteSection.scrollIntoView({ behavior: "smooth" });
+            }
+          }, 100);
         }
       }
     };
