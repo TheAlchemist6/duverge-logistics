@@ -184,11 +184,14 @@ function ServiceCard({ service, index }: ServiceCardProps) {
     const encodedService = encodeURIComponent(service.title);
     window.location.hash = `#quote?service=${encodedService}`;
     
-    // Scroll to quote section and focus on name input
+    // Scroll directly to the form (not just the section header)
     setTimeout(() => {
-      const quoteSection = document.getElementById("quote");
-      if (quoteSection) {
-        quoteSection.scrollIntoView({ behavior: "smooth" });
+      const formElement = document.getElementById("quote-form");
+      if (formElement) {
+        // Scroll to form with offset to account for any fixed headers
+        const yOffset = -100; // Offset to show form inputs clearly
+        const y = formElement.getBoundingClientRect().top + window.pageYOffset + yOffset;
+        window.scrollTo({ top: y, behavior: "smooth" });
         
         // Focus on the name input field after scroll
         setTimeout(() => {

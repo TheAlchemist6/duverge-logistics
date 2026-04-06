@@ -421,6 +421,7 @@ export default function QuoteForm() {
             transition={{ duration: 0.6, delay: 0.2 }}
           >
             <form
+              id="quote-form"
               onSubmit={handleSubmit}
               className="bg-[#0f1d32]/80 backdrop-blur-xl rounded-2xl p-8 border border-[#0ea5e9]/20"
               noValidate
