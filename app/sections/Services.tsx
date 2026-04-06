@@ -3,11 +3,13 @@
 import { motion } from "framer-motion";
 import {
   Truck,
-  Network,
-  PackageCheck,
-  Weight,
+  Container,
   Warehouse,
+  Globe,
+  HandHeart,
   MapPin,
+  Zap,
+  Weight,
   ArrowRight,
   type LucideIcon,
 } from "lucide-react";
@@ -30,52 +32,68 @@ interface Service {
 
 const services: Service[] = [
   {
-    id: "freight-brokerage",
+    id: "ltl",
     icon: Truck,
-    title: "Freight Brokerage",
+    title: "LTL (Less Than Truckload)",
     description:
-      "Access to 1000+ vetted carriers. We match your freight with the perfect carrier for optimal rates and reliability.",
-    href: "#freight-brokerage",
+      "Cost-effective shipping for smaller freight that doesn't require a full truck. Pay only for the space you use while maintaining reliable delivery schedules.",
+    href: "#quote",
   },
   {
-    id: "supply-chain",
-    icon: Network,
-    title: "Supply Chain Management",
+    id: "truckload",
+    icon: Container,
+    title: "Truckload",
     description:
-      "End-to-end supply chain solutions. From procurement to final delivery, we optimize every link.",
-    href: "#supply-chain",
-  },
-  {
-    id: "last-mile",
-    icon: PackageCheck,
-    title: "Last-Mile Delivery",
-    description:
-      "The final mile matters most. White-glove delivery service that delights your customers.",
-    href: "#last-mile",
-  },
-  {
-    id: "heavy-hauling",
-    icon: Weight,
-    title: "Heavy Hauling",
-    description:
-      "Oversized, overweight, over-dimensional? No problem. Permits, routing, and execution handled.",
-    href: "#heavy-hauling",
+      "Full truckload solutions for large shipments. Dedicated capacity with direct routes, fewer stops, and maximum security for your cargo from pickup to delivery.",
+    href: "#quote",
   },
   {
     id: "warehousing",
     icon: Warehouse,
     title: "Warehousing",
     description:
-      "Strategic Florida storage. Inventory management, cross-docking, and distribution under one roof.",
-    href: "#warehousing",
+      "Strategic storage facilities in Florida with inventory management, cross-docking, and distribution services. Flexible space solutions that scale with your business needs.",
+    href: "#quote",
   },
   {
-    id: "internal-shipping",
-    icon: MapPin,
-    title: "Internal Shipping",
+    id: "international",
+    icon: Globe,
+    title: "International Shipping",
     description:
-      "Streamlined domestic logistics. Coast-to-coast coverage with real-time visibility.",
-    href: "#internal-shipping",
+      "Seamless cross-border logistics with customs clearance expertise. Connect your business to global markets with reliable air, ocean, and ground freight options.",
+    href: "#quote",
+  },
+  {
+    id: "white-glove",
+    icon: HandHeart,
+    title: "White-Glove Delivery",
+    description:
+      "Premium handling for high-value, fragile, or specialized items. Inside delivery, assembly, installation, and debris removal with meticulous care and attention.",
+    href: "#quote",
+  },
+  {
+    id: "last-mile",
+    icon: MapPin,
+    title: "Last-Mile Delivery",
+    description:
+      "The final mile matters most. Timely, accurate delivery to your customers' doorsteps with real-time tracking and proof of delivery for complete visibility.",
+    href: "#quote",
+  },
+  {
+    id: "expedited",
+    icon: Zap,
+    title: "Expedited Delivery",
+    description:
+      "Time-critical shipments that can't wait. Priority handling with dedicated trucks and team drivers to meet your tightest deadlines, including same-day and next-day options.",
+    href: "#quote",
+  },
+  {
+    id: "heavy-hauling",
+    icon: Weight,
+    title: "Heavy Hauling",
+    description:
+      "Oversized, overweight, and over-dimensional freight expertise. From permits and routing to specialized equipment, we handle the complex logistics of heavy cargo.",
+    href: "#quote",
   },
 ];
 
@@ -88,7 +106,7 @@ const containerVariants = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.12,
+      staggerChildren: 0.1,
       delayChildren: 0.1,
     },
   },
@@ -159,13 +177,13 @@ function ServiceCard({ service, index }: ServiceCardProps) {
             {service.description}
           </p>
 
-          {/* Learn More Link */}
+          {/* Get Quote Link */}
           <a
             href={service.href}
             className="inline-flex items-center gap-2 mt-6 text-[#0ea5e9] text-sm font-medium transition-all duration-300 group/link hover:text-[#38bdf8]"
-            aria-label={`Learn more about ${service.title}`}
+            aria-label={`Get quote for ${service.title}`}
           >
-            <span>Learn More</span>
+            <span>Get Quote</span>
             <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover/link:translate-x-1" />
           </a>
         </div>
@@ -241,7 +259,7 @@ export default function Services() {
           {/* Subtitle */}
           <p className="text-[#64748b] text-lg leading-relaxed">
             Comprehensive logistics solutions tailored to move your business forward. 
-            From coast to coast, we&apos;ve got you covered.
+            From local deliveries to international freight, we&apos;ve got you covered.
           </p>
         </motion.div>
 
@@ -251,7 +269,7 @@ export default function Services() {
           whileInView="visible"
           viewport={{ once: true, margin: "-50px" }}
           variants={containerVariants}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
           role="list"
         >
           {services.map((service, index) => (
