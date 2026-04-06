@@ -5,11 +5,14 @@ import { Truck, Globe, Mail, ArrowUp } from "lucide-react";
 
 const footerLinks = {
   services: [
-    { label: "Freight Brokerage", href: "#services" },
-    { label: "Supply Chain", href: "#services" },
-    { label: "Last-Mile Delivery", href: "#services" },
-    { label: "Heavy Hauling", href: "#services" },
+    { label: "LTL", href: "#services" },
+    { label: "Truckload", href: "#services" },
     { label: "Warehousing", href: "#services" },
+    { label: "International Shipping", href: "#services" },
+    { label: "White-Glove Delivery", href: "#services" },
+    { label: "Last-Mile Delivery", href: "#services" },
+    { label: "Expedited Delivery", href: "#services" },
+    { label: "Heavy Hauling", href: "#services" },
   ],
   company: [
     { label: "Get a Quote", href: "#quote" },
@@ -48,8 +51,8 @@ export default function Footer() {
               </div>
             </a>
             <p className="text-[#64748b] mb-6 max-w-sm">
-              Florida&apos;s premier freight brokerage. Personal service, next-day delivery, 
-              and 1000+ vetted carriers at your command.
+              Premier freight brokerage serving the United States & Canada. Personal service, 
+              next-day delivery, and instant response at your command.
             </p>
             <div className="flex gap-4">
               <a
