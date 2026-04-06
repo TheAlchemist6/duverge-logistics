@@ -15,8 +15,8 @@ const serviceOptions = [
   "Heavy Hauling",
 ];
 
-// Google Apps Script Web App URL - Replace with your actual URL after deployment
-const GOOGLE_SCRIPT_URL = process.env.NEXT_PUBLIC_GOOGLE_SCRIPT_URL || '';
+// Google Apps Script Web App URL
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyw81vQsmvwd4VHZLP8xrf-psA4EjFxtVnv7v3YRGQenAqJv8EPbhf8atIdwXEDOFiJ/exec';
 
 // Input sanitization function - removes potentially harmful characters
 const sanitizeInput = (input: string): string => {
