@@ -32,7 +32,7 @@ const contactInfo = [
     label: "LinkedIn",
     value: "Cesar Duverge",
     href: "https://www.linkedin.com/in/cesarduverge/",
-    description: "Connect with me here",
+    description: "Connect with me",
     isLinkedIn: true,
   },
   {
