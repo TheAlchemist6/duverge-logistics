@@ -8,10 +8,37 @@ import {
   HandHeart,
   MapPin,
   Zap,
-  Construction,
   ArrowRight,
   type LucideIcon,
 } from "lucide-react";
+
+// Custom Forklift Icon Component
+const ForkliftIcon = ({ className }: { className?: string }) => (
+  <svg
+    className={className}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    {/* Forklift body */}
+    <rect x="2" y="8" width="10" height="10" rx="1" />
+    {/* Forklift mast */}
+    <line x1="14" y1="18" x2="14" y2="4" />
+    <line x1="17" y1="18" x2="17" y2="4" />
+    {/* Forks */}
+    <line x1="14" y1="14" x2="20" y2="14" />
+    <line x1="14" y1="16" x2="20" y2="16" />
+    {/* Wheels */}
+    <circle cx="5" cy="20" r="2" />
+    <circle cx="11" cy="20" r="2" />
+    <circle cx="17" cy="20" r="2" />
+    {/* Load on forks */}
+    <rect x="18" y="10" width="4" height="4" />
+  </svg>
+);
 
 // ============================================================================
 // TypeScript Interfaces
@@ -19,7 +46,7 @@ import {
 
 interface Service {
   id: string;
-  icon: LucideIcon;
+  icon: LucideIcon | React.FC<{ className?: string }>;
   title: string;
   description: string;
   href: string;
@@ -88,7 +115,7 @@ const services: Service[] = [
   },
   {
     id: "heavy-hauling",
-    icon: Construction,
+    icon: ForkliftIcon,
     title: "Heavy Hauling",
     description:
       "Oversized, overweight, and over-dimensional freight expertise. From permits and routing to specialized equipment, we handle the complex logistics of heavy cargo.",
