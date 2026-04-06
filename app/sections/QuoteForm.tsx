@@ -15,6 +15,9 @@ const serviceOptions = [
   "Heavy Hauling",
 ];
 
+// Google Apps Script Web App URL - Replace with your actual URL after deployment
+const GOOGLE_SCRIPT_URL = process.env.NEXT_PUBLIC_GOOGLE_SCRIPT_URL || '';
+
 export default function QuoteForm() {
   const [formData, setFormData] = useState({
     name: "",
@@ -26,6 +29,7 @@ export default function QuoteForm() {
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
 
   // Read service from URL hash on mount and when hash changes
   useEffect(() => {
@@ -58,13 +62,31 @@ export default function QuoteForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setSubmitError("");
     
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    
-    console.log("Quote request:", formData);
-    setIsSubmitting(false);
-    setIsSubmitted(true);
+    try {
+      // Submit to Google Sheets
+      const response = await fetch(GOOGLE_SCRIPT_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+      
+      const result = await response.json();
+      
+      if (result.success) {
+        setIsSubmitted(true);
+      } else {
+        setSubmitError(result.error || "Failed to submit. Please try again.");
+      }
+    } catch (error) {
+      console.error("Submit error:", error);
+      setSubmitError("Network error. Please check your connection and try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (
@@ -90,7 +112,7 @@ export default function QuoteForm() {
               Quote Request Received!
             </h3>
             <p className="text-[#94a3b8] mb-6">
-              Thanks {formData.name.split(" ")[0]}! We&apos;ll review your request and get back to you within 2 hours during business hours.
+              Thanks {formData.name.split(" ")[0]}! We&apos;ll review your request and get back to you instantly with a competitive quote.
             </p>
             <button
               onClick={() => {
@@ -191,6 +213,12 @@ export default function QuoteForm() {
               onSubmit={handleSubmit}
               className="bg-[#0f1d32]/80 backdrop-blur-xl rounded-2xl p-8 border border-[#0ea5e9]/20"
             >
+              {submitError && (
+                <div className="mb-6 p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
+                  {submitError}
+                </div>
+              )}
+              
               <div className="grid sm:grid-cols-2 gap-6 mb-6">
                 <div>
                   <label className="block text-sm font-medium text-[#94a3b8] mb-2">
@@ -288,7 +316,7 @@ export default function QuoteForm() {
 
               <button
                 type="submit"
-                disabled={isSubmitting}
+                disabled={isSubmitting || !GOOGLE_SCRIPT_URL}
                 className="w-full flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-[#0ea5e9] text-[#0a1628] font-bold text-lg hover:bg-[#38bdf8] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isSubmitting ? (
