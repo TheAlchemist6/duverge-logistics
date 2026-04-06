@@ -112,7 +112,7 @@ export default function QuoteForm() {
             </h2>
 
             <p className="text-lg text-[#94a3b8] mb-10">
-              Tell us about your shipping needs. We&apos;ll get back to you within 2 hours with a competitive quote tailored to your business.
+              Tell us about your shipping needs. We&apos;ll get back to you instantenously with a competitive quote tailored to your business.
             </p>
 
             {/* Features */}
