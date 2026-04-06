@@ -42,7 +42,7 @@ export default function Hero() {
             >
               <span className="w-2 h-2 rounded-full bg-[#0ea5e9] animate-pulse" />
               <span className="text-[#0ea5e9] text-sm font-medium">
-                Now Serving All of the United States and Canada
+                Now Serving All of the United States & Canada
               </span>
             </motion.div>
 

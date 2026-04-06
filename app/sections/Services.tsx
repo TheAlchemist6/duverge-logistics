@@ -246,7 +246,7 @@ export default function Services() {
             id="services-heading"
             className="text-4xl md:text-5xl font-bold text-[#f8fafc] tracking-tight mb-6"
           >
-            SERVICES
+            Services
           </h2>
 
           {/* Cyan Underline Accent */}
