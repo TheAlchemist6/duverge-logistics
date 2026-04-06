@@ -19,8 +19,8 @@ const serviceOptions = [
 const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxZi6HOl20Ga_TIh-uwHjhNuC0yvHYxKKUlMXMUnP3GPeuV5NJDcKMGVpO1u2SKRIluAA/exec';
 
 // Input sanitization function - removes potentially harmful characters
-const sanitizeInput = (input: string): string => {
-  return input
+const sanitizeInput = (input: string, preserveNewlines = false): string => {
+  let sanitized = input
     // Don't trim here - allow spaces while typing
     // Remove HTML tags
     .replace(/<[^>]*>/g, '')
@@ -28,11 +28,19 @@ const sanitizeInput = (input: string): string => {
     .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
     .replace(/javascript:/gi, '')
     // Remove SQL injection attempts (basic)
-    .replace(/(\b(SELECT|INSERT|UPDATE|DELETE|DROP|CREATE|ALTER|EXEC|UNION)\b)/gi, '')
-    // Normalize multiple spaces to single space (but preserve leading/trailing for now)
-    .replace(/\s+/g, ' ')
-    // Limit length
-    .slice(0, 500);
+    .replace(/(\b(SELECT|INSERT|UPDATE|DELETE|DROP|CREATE|ALTER|EXEC|UNION)\b)/gi, '');
+  
+  if (!preserveNewlines) {
+    // Normalize multiple spaces to single space (for single-line fields)
+    sanitized = sanitized.replace(/\s+/g, ' ');
+  } else {
+    // For multi-line: normalize spaces but keep newlines
+    // Replace multiple spaces with single space, but preserve newlines
+    sanitized = sanitized.replace(/[ \t]+/g, ' '); // tabs/multiple spaces -> single space
+    sanitized = sanitized.replace(/\n{3,}/g, '\n\n'); // max 2 consecutive newlines
+  }
+  
+  return sanitized.slice(0, 1000);
 };
 
 // Email validation regex
@@ -166,8 +174,9 @@ export default function QuoteForm() {
   ) => {
     const { name, value } = e.target;
     
-    // Sanitize on input
-    let sanitizedValue = sanitizeInput(value);
+    // Sanitize on input - preserve newlines for load/details field
+    const preserveNewlines = name === 'load';
+    let sanitizedValue = sanitizeInput(value, preserveNewlines);
     
     // Special handling for email
     if (name === 'email') {
@@ -246,7 +255,7 @@ export default function QuoteForm() {
       email: formData.email.toLowerCase().trim(),
       phone: formData.phone.replace(/\D/g, ''),
       service: sanitizeInput(formData.service).trim(),
-      load: sanitizeInput(formData.load).trim(),
+      load: sanitizeInput(formData.load, true).trim(), // preserve newlines for load details
     };
     
     // Create form data (avoids CORS preflight issues)
