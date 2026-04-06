@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Send, CheckCircle, Truck, Package, Building2 } from "lucide-react";
 
 const serviceOptions = [
@@ -18,6 +18,64 @@ const serviceOptions = [
 // Google Apps Script Web App URL - Replace with your actual URL after deployment
 const GOOGLE_SCRIPT_URL = process.env.NEXT_PUBLIC_GOOGLE_SCRIPT_URL || '';
 
+// Input sanitization function - removes potentially harmful characters
+const sanitizeInput = (input: string): string => {
+  return input
+    .trim()
+    // Remove HTML tags
+    .replace(/<[^>]*>/g, '')
+    // Remove script tags and javascript:
+    .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+    .replace(/javascript:/gi, '')
+    // Remove SQL injection attempts (basic)
+    .replace(/(\b(SELECT|INSERT|UPDATE|DELETE|DROP|CREATE|ALTER|EXEC|UNION)\b)/gi, '')
+    // Remove excessive whitespace
+    .replace(/\s+/g, ' ')
+    // Limit length
+    .slice(0, 500);
+};
+
+// Email validation regex
+const isValidEmail = (email: string): boolean => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email) && email.length <= 254;
+};
+
+// Phone validation - allows various formats
+const isValidPhone = (phone: string): boolean => {
+  // Remove all non-numeric characters for validation
+  const digitsOnly = phone.replace(/\D/g, '');
+  // Must be 10-15 digits
+  return digitsOnly.length >= 10 && digitsOnly.length <= 15;
+};
+
+// Format phone number consistently
+const formatPhone = (phone: string): string => {
+  const digitsOnly = phone.replace(/\D/g, '');
+  if (digitsOnly.length === 10) {
+    return digitsOnly.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
+  }
+  return phone;
+};
+
+// Name validation - no numbers or special chars except hyphens and apostrophes
+const isValidName = (name: string): boolean => {
+  return /^[a-zA-Z\s'-]{2,50}$/.test(name);
+};
+
+// Company name validation
+const isValidCompany = (company: string): boolean => {
+  return company.length >= 2 && company.length <= 100 && /^[a-zA-Z0-9\s&.,'-]+$/.test(company);
+};
+
+interface FormErrors {
+  name?: string;
+  company?: string;
+  email?: string;
+  phone?: string;
+  service?: string;
+}
+
 export default function QuoteForm() {
   const [formData, setFormData] = useState({
     name: "",
@@ -27,9 +85,11 @@ export default function QuoteForm() {
     service: "",
     load: "",
   });
+  const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
+  const [lastSubmitTime, setLastSubmitTime] = useState<number>(0);
 
   // Read service from URL hash on mount and when hash changes
   useEffect(() => {
@@ -39,7 +99,10 @@ export default function QuoteForm() {
         const serviceParam = hash.split("?service=")[1];
         if (serviceParam) {
           const decodedService = decodeURIComponent(serviceParam);
-          setFormData((prev) => ({ ...prev, service: decodedService }));
+          // Validate service is in allowed list
+          if (serviceOptions.includes(decodedService)) {
+            setFormData((prev) => ({ ...prev, service: decodedService }));
+          }
           // Scroll to quote section after setting service
           setTimeout(() => {
             const quoteSection = document.getElementById("quote");
@@ -59,74 +122,175 @@ export default function QuoteForm() {
     return () => window.removeEventListener("hashchange", readServiceFromHash);
   }, []);
 
+  // Validate individual field
+  const validateField = useCallback((name: string, value: string): string | undefined => {
+    const sanitized = sanitizeInput(value);
+    
+    switch (name) {
+      case 'name':
+        if (!sanitized) return "Name is required";
+        if (sanitized.length < 2) return "Name must be at least 2 characters";
+        if (sanitized.length > 50) return "Name must be less than 50 characters";
+        if (!isValidName(sanitized)) return "Name can only contain letters, spaces, hyphens, and apostrophes";
+        return undefined;
+        
+      case 'company':
+        if (!sanitized) return "Company name is required";
+        if (sanitized.length < 2) return "Company name must be at least 2 characters";
+        if (sanitized.length > 100) return "Company name must be less than 100 characters";
+        if (!isValidCompany(sanitized)) return "Company name contains invalid characters";
+        return undefined;
+        
+      case 'email':
+        if (!sanitized) return "Email is required";
+        if (!isValidEmail(sanitized)) return "Please enter a valid email address";
+        return undefined;
+        
+      case 'phone':
+        if (!sanitized) return "Phone number is required";
+        if (!isValidPhone(sanitized)) return "Please enter a valid phone number (10-15 digits)";
+        return undefined;
+        
+      case 'service':
+        if (!sanitized) return undefined; // Service is optional
+        if (!serviceOptions.includes(sanitized)) return "Please select a valid service";
+        return undefined;
+        
+      default:
+        return undefined;
+    }
+  }, []);
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    
+    // Sanitize on input
+    let sanitizedValue = sanitizeInput(value);
+    
+    // Special handling for email
+    if (name === 'email') {
+      sanitizedValue = sanitizedValue.toLowerCase();
+    }
+    
+    // Special handling for phone - format it
+    if (name === 'phone' && sanitizedValue) {
+      sanitizedValue = formatPhone(sanitizedValue);
+    }
+    
+    setFormData({ ...formData, [name]: sanitizedValue });
+    
+    // Clear error for this field when user types
+    if (errors[name as keyof FormErrors]) {
+      setErrors(prev => ({ ...prev, [name]: undefined }));
+    }
+  };
+
+  const handleBlur = (
+    e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    const error = validateField(name, value);
+    setErrors(prev => ({ ...prev, [name]: error }));
+  };
+
+  const validateForm = (): boolean => {
+    const newErrors: FormErrors = {};
+    
+    newErrors.name = validateField('name', formData.name);
+    newErrors.company = validateField('company', formData.company);
+    newErrors.email = validateField('email', formData.email);
+    newErrors.phone = validateField('phone', formData.phone);
+    
+    // Remove undefined errors
+    Object.keys(newErrors).forEach(key => {
+      if (!newErrors[key as keyof FormErrors]) {
+        delete newErrors[key as keyof FormErrors];
+      }
+    });
+    
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    // Rate limiting - prevent duplicate submissions within 10 seconds
+    const now = Date.now();
+    if (now - lastSubmitTime < 10000) {
+      setSubmitError("Please wait a moment before submitting again.");
+      return;
+    }
+    
     // Check if Google Script URL is configured
     if (!GOOGLE_SCRIPT_URL) {
-      setSubmitError("Form submission is not yet configured. Please contact us directly.");
+      setSubmitError("Form submission is not yet configured. Please contact us directly at Info@duvergelogistics.com");
       return;
     }
     
-    // Validate required fields
-    if (!formData.name.trim() || !formData.company.trim() || !formData.email.trim() || !formData.phone.trim()) {
-      setSubmitError("Please fill in all required fields.");
-      return;
-    }
-    
-    // Validate email format
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(formData.email)) {
-      setSubmitError("Please enter a valid email address.");
+    // Validate all fields
+    if (!validateForm()) {
+      setSubmitError("Please fix the errors above before submitting.");
       return;
     }
     
     setIsSubmitting(true);
     setSubmitError("");
     
-    // Normalize data before sending
+    // Final sanitization before sending
     const normalizedData = {
-      ...formData,
-      name: formData.name.trim(),
-      company: formData.company.trim(),
+      name: sanitizeInput(formData.name),
+      company: sanitizeInput(formData.company),
       email: formData.email.toLowerCase().trim(),
-      phone: formData.phone.trim(),
-      service: formData.service.trim(),
-      load: formData.load.trim(),
+      phone: formData.phone.replace(/\D/g, ''), // Send digits only to backend
+      service: sanitizeInput(formData.service),
+      load: sanitizeInput(formData.load),
     };
     
     try {
-      // Submit to Google Sheets
+      // Submit to Google Sheets with timeout
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+      
       const response = await fetch(GOOGLE_SCRIPT_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(normalizedData),
+        signal: controller.signal,
       });
+      
+      clearTimeout(timeoutId);
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
       
       const result = await response.json();
       
       if (result.success) {
+        setLastSubmitTime(now);
         setIsSubmitted(true);
       } else {
-        setSubmitError(result.error || "Failed to submit. Please try again.");
+        setSubmitError(result.error || "Failed to submit. Please try again or contact us directly.");
       }
     } catch (error) {
       console.error("Submit error:", error);
-      setSubmitError("Network error. Please check your connection and try again.");
+      if (error instanceof Error) {
+        if (error.name === 'AbortError') {
+          setSubmitError("Request timed out. Please check your connection and try again.");
+        } else {
+          setSubmitError("Network error. Please check your connection and try again.");
+        }
+      } else {
+        setSubmitError("An unexpected error occurred. Please try again.");
+      }
     } finally {
       setIsSubmitting(false);
     }
-  };
-
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
-  ) => {
-    const { name, value } = e.target;
-    // Normalize email to lowercase
-    const normalizedValue = name === 'email' ? value.toLowerCase().trim() : value;
-    setFormData({ ...formData, [name]: normalizedValue });
   };
 
   if (isSubmitted) {
@@ -159,6 +323,7 @@ export default function QuoteForm() {
                   service: "",
                   load: "",
                 });
+                setErrors({});
               }}
               className="text-[#0ea5e9] hover:underline"
             >
@@ -246,6 +411,7 @@ export default function QuoteForm() {
             <form
               onSubmit={handleSubmit}
               className="bg-[#0f1d32]/80 backdrop-blur-xl rounded-2xl p-8 border border-[#0ea5e9]/20"
+              noValidate
             >
               {submitError && (
                 <div className="mb-6 p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm">
@@ -264,9 +430,15 @@ export default function QuoteForm() {
                     required
                     value={formData.name}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 rounded-xl bg-[#0a1628] border border-[#0ea5e9]/20 text-[#f8fafc] placeholder-[#64748b] focus:outline-none focus:border-[#0ea5e9]/50 transition-colors"
+                    onBlur={handleBlur}
+                    maxLength={50}
+                    className={`w-full px-4 py-3 rounded-xl bg-[#0a1628] border ${errors.name ? 'border-red-500/50 focus:border-red-500' : 'border-[#0ea5e9]/20 focus:border-[#0ea5e9]/50'} text-[#f8fafc] placeholder-[#64748b] focus:outline-none transition-colors`}
                     placeholder="John Smith"
+                    autoComplete="name"
                   />
+                  {errors.name && (
+                    <p className="mt-1 text-xs text-red-400">{errors.name}</p>
+                  )}
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-[#94a3b8] mb-2">
@@ -278,9 +450,15 @@ export default function QuoteForm() {
                     required
                     value={formData.company}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 rounded-xl bg-[#0a1628] border border-[#0ea5e9]/20 text-[#f8fafc] placeholder-[#64748b] focus:outline-none focus:border-[#0ea5e9]/50 transition-colors"
+                    onBlur={handleBlur}
+                    maxLength={100}
+                    className={`w-full px-4 py-3 rounded-xl bg-[#0a1628] border ${errors.company ? 'border-red-500/50 focus:border-red-500' : 'border-[#0ea5e9]/20 focus:border-[#0ea5e9]/50'} text-[#f8fafc] placeholder-[#64748b] focus:outline-none transition-colors`}
                     placeholder="Acme Inc."
+                    autoComplete="organization"
                   />
+                  {errors.company && (
+                    <p className="mt-1 text-xs text-red-400">{errors.company}</p>
+                  )}
                 </div>
               </div>
 
@@ -295,9 +473,15 @@ export default function QuoteForm() {
                     required
                     value={formData.email}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 rounded-xl bg-[#0a1628] border border-[#0ea5e9]/20 text-[#f8fafc] placeholder-[#64748b] focus:outline-none focus:border-[#0ea5e9]/50 transition-colors"
+                    onBlur={handleBlur}
+                    maxLength={254}
+                    className={`w-full px-4 py-3 rounded-xl bg-[#0a1628] border ${errors.email ? 'border-red-500/50 focus:border-red-500' : 'border-[#0ea5e9]/20 focus:border-[#0ea5e9]/50'} text-[#f8fafc] placeholder-[#64748b] focus:outline-none transition-colors`}
                     placeholder="john@company.com"
+                    autoComplete="email"
                   />
+                  {errors.email && (
+                    <p className="mt-1 text-xs text-red-400">{errors.email}</p>
+                  )}
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-[#94a3b8] mb-2">
@@ -309,9 +493,15 @@ export default function QuoteForm() {
                     required
                     value={formData.phone}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 rounded-xl bg-[#0a1628] border border-[#0ea5e9]/20 text-[#f8fafc] placeholder-[#64748b] focus:outline-none focus:border-[#0ea5e9]/50 transition-colors"
+                    onBlur={handleBlur}
+                    maxLength={20}
+                    className={`w-full px-4 py-3 rounded-xl bg-[#0a1628] border ${errors.phone ? 'border-red-500/50 focus:border-red-500' : 'border-[#0ea5e9]/20 focus:border-[#0ea5e9]/50'} text-[#f8fafc] placeholder-[#64748b] focus:outline-none transition-colors`}
                     placeholder="551-234-9587"
+                    autoComplete="tel"
                   />
+                  {errors.phone && (
+                    <p className="mt-1 text-xs text-red-400">{errors.phone}</p>
+                  )}
                 </div>
               </div>
 
@@ -323,6 +513,7 @@ export default function QuoteForm() {
                   name="service"
                   value={formData.service}
                   onChange={handleChange}
+                  onBlur={handleBlur}
                   className="w-full px-4 py-3 rounded-xl bg-[#0a1628] border border-[#0ea5e9]/20 text-[#f8fafc] focus:outline-none focus:border-[#0ea5e9]/50 transition-colors"
                 >
                   <option value="">Select a service</option>
@@ -343,9 +534,11 @@ export default function QuoteForm() {
                   rows={4}
                   value={formData.load}
                   onChange={handleChange}
+                  maxLength={1000}
                   className="w-full px-4 py-3 rounded-xl bg-[#0a1628] border border-[#0ea5e9]/20 text-[#f8fafc] placeholder-[#64748b] focus:outline-none focus:border-[#0ea5e9]/50 transition-colors resize-none"
                   placeholder="Weight, dimensions, special requirements, pickup location, delivery location, timeline..."
                 />
+                <p className="mt-1 text-xs text-[#64748b] text-right">{formData.load.length}/1000</p>
               </div>
 
               <button
