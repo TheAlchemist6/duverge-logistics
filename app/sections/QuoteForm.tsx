@@ -121,6 +121,8 @@ export default function QuoteForm() {
               setTimeout(() => nameInput.focus(), 300);
             }
           }, 100);
+          // Clear the hash so it doesn't persist on refresh
+          window.history.replaceState(null, '', window.location.pathname + window.location.search);
         }
       }
     };
