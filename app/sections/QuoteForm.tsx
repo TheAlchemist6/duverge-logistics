@@ -15,8 +15,8 @@ const serviceOptions = [
   "Heavy Hauling",
 ];
 
-// Google Apps Script Web App URL - set in Vercel environment variables
-const GOOGLE_SCRIPT_URL = process.env.NEXT_PUBLIC_GOOGLE_SCRIPT_URL || '';
+// Internal API route for quote submissions
+const QUOTE_API_URL = '/api/quote';
 
 // Input sanitization function - removes potentially harmful characters
 const sanitizeInput = (input: string, preserveNewlines = false): string => {
@@ -244,8 +244,8 @@ export default function QuoteForm() {
       return;
     }
     
-    // Check if Google Script URL is configured
-    if (!GOOGLE_SCRIPT_URL) {
+    // Check if API URL is configured
+    if (!QUOTE_API_URL) {
       setSubmitError("Form submission is not yet configured. Please contact us directly at Info@duvergelogistics.com");
       return;
     }
@@ -277,24 +277,25 @@ export default function QuoteForm() {
     formDataObj.append('_honeypot', honeypot);
     
     try {
-      // Submit to Google Sheets with timeout
+      // Submit to API route with timeout
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 10000);
-      
-      const response = await fetch(GOOGLE_SCRIPT_URL, {
+
+      const response = await fetch(QUOTE_API_URL, {
         method: 'POST',
-        body: formDataObj,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(normalizedData),
         signal: controller.signal,
       });
-      
+
       clearTimeout(timeoutId);
-      
+
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      
+
       const result = await response.json();
-      
+
       if (result.success) {
         setLastSubmitTime(now);
         setIsSubmitted(true);
@@ -581,7 +582,7 @@ export default function QuoteForm() {
 
               <button
                 type="submit"
-                disabled={isSubmitting || !GOOGLE_SCRIPT_URL}
+                disabled={isSubmitting || !QUOTE_API_URL}
                 className="w-full flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-[#0ea5e9] text-[#0a1628] font-bold text-lg hover:bg-[#38bdf8] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isSubmitting ? (
